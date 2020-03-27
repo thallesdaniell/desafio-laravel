@@ -27,3 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token'    => Str::random(10),
     ];
 });
+
+$factory->afterCreatingState(User::class, 'padrao', function ($user, $faker) {
+    $user->assignRole(config('desafio.role-default'));
+});

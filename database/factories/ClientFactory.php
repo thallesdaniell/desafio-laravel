@@ -13,14 +13,8 @@ $factory->define(Client::class, function (Faker $faker) {
         'name'    => $faker->name,
         'email'   => $faker->email,
         'user_id' => function () {
-
-            return factory(User::class)
-                ->create()
-                ->each(function () {
-                    $user = factory(User::class)->make();
-                    $user->assignRole(config('desafio.role-default'));
-
-                });
+            return factory(User::class)->state('padrao')->create()->id;
         }
     ];
 });
+
