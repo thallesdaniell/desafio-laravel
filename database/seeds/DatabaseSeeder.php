@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(RoleDefaultSeeder::class);
+
+        factory(Phone::class,10)->create();
     }
 }
