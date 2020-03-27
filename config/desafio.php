@@ -11,5 +11,6 @@ return [
       |
      */
 
-    'role-admin'     => 'administrador',
+    'role-admin'   => 'administrador',
+    'role-default' => 'padrao',
 ];
