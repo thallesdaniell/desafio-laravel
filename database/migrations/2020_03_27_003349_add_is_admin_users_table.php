@@ -14,7 +14,7 @@ class AddIsAdminUsersTable extends Migration
     public function up()
     {
         Schema::table('users',function (Blueprint $table){
-            $table->boolean('is_admin')->after('password');
+            $table->boolean('is_admin')->default(false)->after('password');
             $table->softDeletes();
         });
     }
