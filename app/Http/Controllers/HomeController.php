@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $clientes = Client::where('user_id', auth()->user()->id);
+        $total    = $clientes->count();
+        $clientes = $clientes->orderBy('id', 'DESC')
+            ->limit(5)
+            ->get();
+        return view('home.index', compact('clientes','total'));
     }
 }
