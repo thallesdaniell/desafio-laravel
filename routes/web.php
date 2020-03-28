@@ -17,7 +17,10 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
 Auth::routes();
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
