@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
+
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/', function () {
-        return view('welcome');
-    });
-    
+
+    Route::resource('/client', 'ClientController');
+    Route::resource('/phone', 'PhoneController');
+    Route::resource('/role','RoleController');
+    Route::resource('/user','UserController');
+
 });
