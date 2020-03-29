@@ -32,8 +32,8 @@
                                 @csrf
 
                                 <div class="form-group">
-                                    <label for="email">{{ __('Name') }}</label>
-                                    <input id="email" type="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}">
+                                    <label for="name">{{ __('Name') }}</label>
+                                    <input id="name" type="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -104,7 +104,5 @@
 <script src="{{asset('assets/js/scripts.js')}}"></script>
 <script src="{{asset('assets/js/custom.js')}}"></script>
 
-<!-- Page Specific JS File -->
-<script src="{{asset('assets/js/page/auth-register.js')}}"></script>
 </body>
 </html>
