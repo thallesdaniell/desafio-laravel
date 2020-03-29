@@ -32,7 +32,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="table-responsive">
+                                <div class="">
                                     <table class="datatable table table-borderless table-responsive-lg ">
                                         <thead >
                                         <tr>

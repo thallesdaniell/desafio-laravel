@@ -38,9 +38,8 @@
                                            name="">
                                 </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-borderless" id="table" class="display responsive nowrap"
-                                           cellspacing="0" width="100%">
+                                <div class="">
+                                    <table class="table table-borderless " id="table">
                                         <thead>
                                         <tr>
                                             <th>Nome</th>
