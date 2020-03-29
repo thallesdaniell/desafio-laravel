@@ -10,6 +10,11 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:'.config('desafio.role-admin'),['only' => ['create', 'index']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
