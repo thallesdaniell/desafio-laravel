@@ -15,6 +15,7 @@
                     <li><a class="nav-link" href="{{route('user.edit',auth()->user()->id)}}">Perfil</a></li>
                 </ul>
             </li>
+            @can(config('desafio.role-admin'))
             <li class="menu-header">Administrador</li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Administrador</span></a>
@@ -23,6 +24,7 @@
                     <li><a class="nav-link" href="{{route('role.index')}}">Gerenciar Perfil</a></li>
                 </ul>
             </li>
+            @endcan
         </ul>
     </aside>
 </div>
