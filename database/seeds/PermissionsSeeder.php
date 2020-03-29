@@ -17,10 +17,10 @@ class PermissionsSeeder extends Seeder
             'cliente-criar',
             'cliente-editar',
             'cliente-deletar',
-            'telefone-listar',
-            'telefone-criar',
-            'telefone-editar',
-            'telefone-deletar',
+            'usuario-listar',
+            'usuario-criar',
+            'usuario-editar',
+            'usuario-deletar',
         ];
 
         foreach ($permissions as $permission) {

@@ -16,6 +16,14 @@ class RoleDefaultSeeder extends Seeder
         $role = Role::firstOrCreate(
             ['name' => config('desafio.role-default')]
         );
-        $role->permissions()->sync(Permission::all());
+
+        $permissions = [
+            'cliente-listar',
+            'cliente-criar',
+            'cliente-editar',
+            'cliente-deletar',
+            'usuario-editar',
+          ];
+        $role->syncPermissions($permissions);
     }
 }

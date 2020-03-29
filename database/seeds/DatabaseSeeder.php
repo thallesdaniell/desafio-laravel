@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSeeder::class);
         $this->call(RoleDefaultSeeder::class);
 
-        factory(Phone::class,10)->create();
+       // factory(Phone::class,10)->create();
     }
 }
