@@ -29,12 +29,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="name">E-mail</label>
-                                        <input type="text" name="email" class="form-control" id="name" value="{{$user->email}}">
+                                        <input type="text" name="email" class="form-control" id="email" value="{{$user->email}}">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="name">Senha</label>
                                         <input type="password" name="password" class="form-control" id="password" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="name">Confirmação da senha</label>
+                                        <input type="password" name="password_confirmation" class="form-control" id="password" value="">
                                     </div>
 
                                     @if(!$roles->isEmpty() && auth()->user()->is_admin)
@@ -64,6 +69,6 @@
 @endsection
 
 @section('after_scripts')
-    <script src="{{asset('assets/js/scripts.js')}}"></script>>
+    <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
 @endsection
