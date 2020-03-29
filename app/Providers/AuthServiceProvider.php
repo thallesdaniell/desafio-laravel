@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Client;
-use App\Models\Phone;
 use App\Models\User;
 use App\Policies\ClientPolicy;
 use App\Policies\PhonePolicy;
@@ -20,9 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => UserPolicy::class,
-        Phone::class => PhonePolicy::class,
         Client::class => ClientPolicy::class
-        // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
