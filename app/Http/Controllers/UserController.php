@@ -12,7 +12,10 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:'.config('desafio.role-admin'),['only' => ['create', 'index']]);
+        $this->middleware('permission:usuario-listar', ['only' => ['index', 'show']]);
+        $this->middleware('permission:usuario-criar', ['only' => ['create', 'store']]);
+        $this->middleware('permission:usuario-editar', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:usuario-deletar', ['only' => ['destroy']]);
     }
 
     /**
@@ -23,6 +26,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
+        $this->authorize('permission', auth()->user());
+
         return view('user.index', compact('users'));
     }
 
@@ -34,6 +40,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+
         return view('user.create', compact('roles'));
     }
 
@@ -50,6 +57,8 @@ class UserController extends Controller
         $user->email    = $request->get('email');
         $user->password = bcrypt($request->get('password'));
 
+        $this->authorize('permission', $user);
+
         $roles = $request->get('roles');
         if (isset($roles)) {
             foreach ($roles as $role) {
@@ -58,6 +67,7 @@ class UserController extends Controller
             }
         }
         $user->save();
+
         return redirect()->route('user.index')
             ->with('message', 'Usuário adicionado com sucesso.');
     }
@@ -99,10 +109,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        $user = User::findOrFail($id);
-
-        $this->authorize('permission', $user);
-
+        $user        = User::findOrFail($id);
         $user->name  = $request->input('name');
         $user->email = $request->input('email');
 
@@ -110,17 +117,26 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
-        $rolesRequest[] = $request['roles'];
-
-        if (isset($rolesRequest)) {
-            $user->syncRoles($rolesRequest);
-        } else {
-            $user->roles()->detach();
-        }
+        $this->authorize('permission', $user);
 
         $user->save();
-        return redirect()->route('user.index')
-            ->with('message', 'Usuario editado com sucesso.');
+
+        if (auth()->user()->is_admin) {
+            $roles[] = $request['roles'];
+
+            if (isset($roles)) {
+                $user->syncRoles($roles);
+            } else {
+                $user->roles()->detach();
+            }
+            return redirect()->route('user.index')
+                ->with('message', 'Usuario editado com sucesso.');
+        }
+
+        return redirect()->route('user.edit', $user->id)
+            ->with('message', 'Usuário editado com sucesso.');
+
+
     }
 
     /**
