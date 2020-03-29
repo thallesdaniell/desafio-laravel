@@ -11,7 +11,7 @@
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Agenda</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{route('client.index')}}">Contatos</a></li>
+                    <li><a class="nav-link" href="{{route('client.index')}}">Clientes</a></li>
                     <li><a class="nav-link" href="{{route('user.edit',auth()->user()->id)}}">Perfil</a></li>
                 </ul>
             </li>
