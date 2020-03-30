@@ -4,19 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Phone extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,LogsActivity;
 
     protected $fillable =[
         'phone'
     ];
 
+    protected static $logAttributes = [
+        'phone'
+    ];
 
-    public function client()
+    protected static $submitEmptyLogs = false;
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return $this->belongsTo(Client::class);
+        if ($eventName == 'created')
+            return 'Telefone "' . $this->phone . '" foi criado';
+
+        if ($eventName == 'updated')
+            return 'Telefone "' . $this->phone . '" foi atualizado';
+
+        if ($eventName == 'deleted')
+            return 'Telefone "' . $this->phone . '" foi deletado';
+
+        return '';
     }
 
     public function setPhoneAttribute($value)
