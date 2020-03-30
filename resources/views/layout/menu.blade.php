@@ -14,6 +14,15 @@
                     <li><a class="nav-link" href="{{route('client.index')}}">Clientes</a></li>
                 </ul>
             </li>
+
+            <li class="menu-header">Histórico</li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="far fa-address-book"></i><span>Histórico</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{route('log.index')}}">Histórico</a></li>
+                </ul>
+            </li>
+
             @can(config('desafio.role-admin'))
             <li class="menu-header">Administrador</li>
             <li class="nav-item dropdown">

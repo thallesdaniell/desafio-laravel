@@ -29,5 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/phone', 'PhoneController');
     Route::resource('/role','RoleController');
     Route::resource('/user','UserController');
+    Route::resource('/log','LogController');
 
 });
