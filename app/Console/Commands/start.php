@@ -37,11 +37,11 @@ class start extends Command
      */
     public function handle()
     {
+        $task = $this->choice("Foi criado o '.env'?", ['S', 'N'], 0);
+        if ($task == 'N') exit;
+
         $db = $this->choice("Configurou as credênciais do banco MYSQL?", ['S', 'N'], 0);
         if ($db == 'N') exit;
-
-        $task = $this->choice("Já foi executado o 'composer install'?", ['S', 'N'], 0);
-        if ($task == 'N') exit;
 
         $this->callSilent('config:cache');
         $this->call('db:create');
