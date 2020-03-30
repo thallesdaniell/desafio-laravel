@@ -78,7 +78,7 @@
                                                                     </div>
                                                                     <div class="activity-detail">
                                                                         <p>{{$client->email}}</p>
-                                                                        <a  href="open:mailto:{{$client->email}}?Subject=Desafio%20PrivateCode%20&body=Ola%20entrei%20em%20contato%20através%20da%20agenda." class="btn btn-icon icon-left btn-primary">
+                                                                        <a   href="mailto:{{$client->email}}?Subject=Desafio%20PrivateCode&body=Desafio%20PrivateCode." target="_top" class="btn btn-icon icon-left btn-primary">
                                                                             <i class="far fa-envelope"></i> Enviar
                                                                         </a>
 
@@ -94,11 +94,11 @@
                                                                         <div class="activity-detail">
                                                                             <p>{{$phone->phone}}</p>
 
-                                                                            <a href="open:https://api.whatsapp.com/send?phone=+55{{$phone->phone}}&text=Ola%20entrei%20em%20contato%20através%20da%agenda." class="btn btn-icon icon-left btn-primary">
+                                                                            <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
                                                                                 <i class="fab fa-whatsapp"></i> Conversar
                                                                             </a>
 
-                                                                            <a href="open:tel:{{$phone->phone}}" class="btn btn-icon icon-left btn-primary">
+                                                                            <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
                                                                                 <i class="fas fa-phone-square"></i> Ligar
                                                                             </a>
 

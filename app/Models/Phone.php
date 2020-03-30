@@ -36,7 +36,12 @@ class Phone extends Model
 
     public function setPhoneAttribute($value)
     {
-        $this->attributes['phone'] = str_replace(['(',')','-'],[''],$value);
+        $this->attributes['phone'] = str_replace(['(',')','-',' '],[''],$value);
+    }
+
+    public function getPhoneOnlyNumberAttribute()
+    {
+        return str_replace(['(',')','-',' '],[''],$this->phone);
     }
 
     public function getPhoneAttribute($value)
