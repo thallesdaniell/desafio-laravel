@@ -51,12 +51,13 @@ class ClientController extends Controller
         $client->email   = $request->get('email');
         $client->save();
 
-        foreach ($request->get('phones') as $phone)
-            $phones[] = ['phone' => $phone];
+        if ($request->filled('phones')) {
 
-        $client->phone()->delete();
-        $client->phone()->createMany($phones);
+            foreach ($request->get('phones') as $phone)
+                $phones[] = ['phone' => $phone];
 
+            $client->phone()->createMany($phones);
+        }
         return redirect()->route('client.index')
             ->with('message', 'Cliente adicionado com sucesso.');
     }
@@ -69,7 +70,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-       //
+        //
     }
 
     /**
@@ -104,11 +105,22 @@ class ClientController extends Controller
 
         $client->save();
 
-        foreach ($request->get('phones') as $phone)
-            $phones[] = ['phone' => $phone];
+        $phones_front = $request->get('phones') ?? [];
+        $phones_db    = $client->phone()->get();
 
-        $client->phone()->delete();
-        $client->phone()->createMany($phones);
+        foreach ($phones_db as $phone) {
+            if (!array_key_exists($phone->id, $phones_front))
+                $phone->delete();
+        }
+
+        foreach ($phones_front as $id => $phone) {
+            if ($phones_db->find($id)) {
+                $phones_db->find($id)->phone = $phone;
+                $phones_db->find($id)->save();
+            } else {
+                $client->phone()->create(['phone' => $phone]);
+            }
+        }
 
         return redirect()->route('client.index')
             ->with('message', 'Cliente editado com sucesso.');
