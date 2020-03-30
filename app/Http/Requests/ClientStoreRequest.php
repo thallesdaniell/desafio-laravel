@@ -29,6 +29,7 @@ class ClientStoreRequest extends FormRequest
             'name'  => 'required|string',
             'phone' => Rule::requiredIf(function () {
                 $return = false;
+                if(!$this->phones) return false;
                 foreach ($this->phones as $phones) {
                     $sum    = preg_replace('/[^0-9]/', '', $phones);
                     if (strlen($sum) == 11) continue;

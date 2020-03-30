@@ -29,8 +29,9 @@ class ClientUpdateRequest extends FormRequest
             'name'  => 'required|string',
             'phone' => Rule::requiredIf(function () {
                 $return = false;
+                if (!$this->phones) return false;
                 foreach ($this->phones as $phones) {
-                    $sum    = preg_replace('/[^0-9]/', '', $phones);
+                    $sum = preg_replace('/[^0-9]/', '', $phones);
                     if (strlen($sum) == 11) continue;
                     $return = true;
                 }
@@ -44,7 +45,8 @@ class ClientUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
 
         return [
             'phone.required' => 'Telefone informado não é válido!'
