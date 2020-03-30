@@ -32,12 +32,11 @@
                                         <input type="text" name="email" class="form-control" id="email" value="{{$client->email}}">
                                     </div>
 
-                                    <div id="new"></div>
                                     @if($client->phone)
                                         @foreach($client->phone as $phone)
                                             <div id="inputAdd">
                                                 <div class="input-group mb-3">
-                                                    <input type="text" name="phones[]"
+                                                    <input type="text" name="phones[{{$phone->id}}]"
                                                            class="form-control m-input phones" value="{{$phone->phone}}">
                                                     <div class="input-group-append">
                                                         <button id="remove" type="button" class="btn btn-danger">
@@ -47,7 +46,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
-
+                                        <div id="new"></div>
                                     @endif
 
                                     <div class="text-right">

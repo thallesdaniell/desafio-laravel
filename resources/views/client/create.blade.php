@@ -31,7 +31,6 @@
                                         <input type="text" name="email" class="form-control" id="email" value="{{old('email')}}">
                                     </div>
 
-                                    <div id="new"></div>
                                     @if(old('phones'))
                                         @foreach(old('phones') as $phone)
                                             <div id="inputAdd">
@@ -46,8 +45,8 @@
                                                 </div>
                                             </div>
                                         @endforeach
-
                                     @endif
+                                    <div id="new"></div>
 
                                     <div class="text-right">
                                         <button id="addRow" type="button" class="btn btn-info text-right">Adicionar Telefone</button>
