@@ -48,7 +48,7 @@
                             <div class="card-body">
 
 
-                                <div class="">
+                                <div class="table-responsive">
                                     <table class="table table-borderless" id="table">
                                         <thead>
                                         <tr>

@@ -7,7 +7,8 @@
 @section('after_css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
 
     <style>
         .table:not(.table-sm) thead th {
@@ -43,8 +44,8 @@
                                         <thead>
                                         <tr>
                                             <th>Nome</th>
-                                            <th width="10px"></th>
-                                            <th width="10px"></th>
+                                            <th></th>
+                                            <th></th>
 
                                         </tr>
                                         </thead>
@@ -63,6 +64,7 @@
 
                                                             </div>
                                                         </small>
+
                                                     </h3>
                                                     <div class="accordian-body collapse"
                                                          id="mycard-collapse{{$client->id}}">
@@ -76,6 +78,10 @@
                                                                     </div>
                                                                     <div class="activity-detail">
                                                                         <p>{{$client->email}}</p>
+                                                                        <a  href="open:mailto:{{$client->email}}?Subject=Desafio%20PrivateCode%20&body=Ola%20entrei%20em%20contato%20através%20da%20agenda." class="btn btn-icon icon-left btn-primary">
+                                                                            <i class="far fa-envelope"></i> Enviar
+                                                                        </a>
+
                                                                     </div>
                                                                 </div>
                                                                 @foreach($client->phone as $phone)
@@ -87,12 +93,22 @@
                                                                         </div>
                                                                         <div class="activity-detail">
                                                                             <p>{{$phone->phone}}</p>
+
+                                                                            <a href="open:https://api.whatsapp.com/send?phone=+55{{$phone->phone}}&text=Ola%20entrei%20em%20contato%20através%20da%agenda." class="btn btn-icon icon-left btn-primary">
+                                                                                <i class="fab fa-whatsapp"></i> Conversar
+                                                                            </a>
+
+                                                                            <a href="open:tel:{{$phone->phone}}" class="btn btn-icon icon-left btn-primary">
+                                                                                <i class="fas fa-phone-square"></i> Ligar
+                                                                            </a>
+
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </td>
                                                 <td class="text-right">
                                                     <a href="{{route('client.edit',$client->id)}}"
@@ -135,7 +151,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
