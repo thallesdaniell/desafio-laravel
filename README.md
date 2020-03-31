@@ -61,7 +61,7 @@ Executar a aplicação
 
 Clonar projeto
 ```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+$ git clone git@github.com:thallesdaniell/desafio-privatecode.git
 ```
 Instalar composer 
 ```
