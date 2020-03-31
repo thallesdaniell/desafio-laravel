@@ -22,9 +22,11 @@
         <section class="section">
             <div class="section-header">
                 <h1>Clientes</h1>
-                <div class="section-header-breadcrumb">
-                    <a href="{{ route('client.create') }}" class="btn btn-primary text-right">Criar Cliente</a>
-                </div>
+                @can('cliente-criar')
+                    <div class="section-header-breadcrumb">
+                        <a href="{{ route('client.create') }}" class="btn btn-primary text-right">Criar Cliente</a>
+                    </div>
+                @endcan
             </div>
             @include('layout.alerts')
             <div class="section-body">
@@ -111,24 +113,31 @@
 
                                                 </td>
                                                 <td class="text-right">
-                                                    <a href="{{route('client.edit',$client->id)}}"
-                                                       class="btn btn-icon btn-primary" data-toggle="tooltip"
-                                                       data-placement="top" title="Editar">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                </td>
-                                                <td class="text-left">
-                                                    <form method="POST"
-                                                          action="{{route('client.destroy',$client->id) }}"
-                                                          id="client_destroy{{ $client->id }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a class="btn btn-icon btn-danger" data-toggle="tooltip"
-                                                           ata-placement="top" title="Excluir" href="#"
-                                                           onClick="document.getElementById('client_destroy{{ $client->id }}').submit();">
-                                                            <i class="far fa-trash-alt"></i>
+                                                    @can('cliente-editar')
+                                                        <a href="{{route('client.edit',$client->id)}}"
+                                                           class="btn btn-icon btn-primary" data-toggle="tooltip"
+                                                           data-placement="top" title="Editar">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                    </form>
+                                                    @endcan
+                                                </td>
+
+
+
+                                                <td class="text-left">
+                                                    @can('cliente-deletar')
+                                                        <form method="POST"
+                                                              action="{{route('client.destroy',$client->id) }}"
+                                                              id="client_destroy{{ $client->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <a class="btn btn-icon btn-danger" data-toggle="tooltip"
+                                                               ata-placement="top" title="Excluir" href="#"
+                                                               onClick="document.getElementById('client_destroy{{ $client->id }}').submit();">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </form>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
