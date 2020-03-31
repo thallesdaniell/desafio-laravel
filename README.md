@@ -6,7 +6,7 @@
 Aplicação desafio Private CODE
 ------------------------------
 
-Criado aplicação como forma de processo seletivo.
+Aplicação criada como avaliação de processo seletivo.
 
 __Objetivo__: Desenvolver uma aplicação para gerir uma agenda telefônica com controle de acesso.
 
@@ -77,7 +77,7 @@ Configurar `.env` com as credências do banco `Mysql`
   DB_USERNAME=root
   DB_PASSWORD=
 ```
-Inciar a aplicação 
+Iniciar a aplicação 
 ```
 $ php artisan start:app
 ```
