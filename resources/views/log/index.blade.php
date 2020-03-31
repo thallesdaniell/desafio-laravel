@@ -108,7 +108,7 @@
 
         $('.search').on('keyup change', function () {
             let value = $(this).val();
-            DataTable.columns(0).search(value).draw();
+            DataTable.search(value).draw();
         });
 
     </script>
