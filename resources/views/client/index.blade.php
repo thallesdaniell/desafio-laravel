@@ -44,8 +44,8 @@
                                         <thead>
                                         <tr>
                                             <th>Nome</th>
-                                            <th></th>
-                                            <th></th>
+                                            <th width="10px"></th>
+                                            <th width="10px"></th>
 
                                         </tr>
                                         </thead>
@@ -95,7 +95,7 @@
                                                                             <p>{{$phone->phone}}</p>
 
                                                                             <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
-                                                                                <i class="fab fa-whatsapp"></i> Conversar
+                                                                                <i class="fab fa-whatsapp"></i> WhatsApp
                                                                             </a>
 
                                                                             <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
