@@ -21,6 +21,7 @@ class PermissionsSeeder extends Seeder
             'usuario-criar',
             'usuario-editar',
             'usuario-deletar',
+            'log-geral'
         ];
 
         foreach ($permissions as $permission) {
