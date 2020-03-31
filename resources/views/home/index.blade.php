@@ -49,11 +49,12 @@
 
 
                                 <div class="table-responsive">
-                                    <table class="table table-borderless" id="table">
+                                    <table class="table table-borderless " id="table">
                                         <thead>
                                         <tr>
                                             <th>Ultimos cadastrados</th>
-
+                                            <th width="10px"></th>
+                                            <th width="10px"></th>
 
                                         </tr>
                                         </thead>
@@ -72,6 +73,7 @@
 
                                                             </div>
                                                         </small>
+
                                                     </h3>
                                                     <div class="accordian-body collapse"
                                                          id="mycard-collapse{{$cliente->id}}">
@@ -85,6 +87,10 @@
                                                                     </div>
                                                                     <div class="activity-detail">
                                                                         <p>{{$cliente->email}}</p>
+                                                                        <a   href="mailto:{{$cliente->email}}?Subject=Desafio%20PrivateCode&body=Desafio%20PrivateCode." target="_top" class="btn btn-icon icon-left btn-primary">
+                                                                            <i class="far fa-envelope"></i> Enviar
+                                                                        </a>
+
                                                                     </div>
                                                                 </div>
                                                                 @foreach($cliente->phone as $phone)
@@ -96,15 +102,50 @@
                                                                         </div>
                                                                         <div class="activity-detail">
                                                                             <p>{{$phone->phone}}</p>
+
+                                                                            <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
+                                                                                <i class="fab fa-whatsapp"></i> WhatsApp
+                                                                            </a>
+
+                                                                            <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
+                                                                                <i class="fas fa-phone-square"></i> Ligar
+                                                                            </a>
+
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                </td>
+                                                <td class="text-right">
+                                                    @can('clientee-editar')
+                                                        <a href="{{route('client.edit',$cliente->id)}}"
+                                                           class="btn btn-icon btn-primary" data-toggle="tooltip"
+                                                           data-placement="top" title="Editar">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </a>
+                                                    @endcan
                                                 </td>
 
 
+
+                                                <td class="text-left">
+                                                    @can('clientee-deletar')
+                                                        <form method="POST"
+                                                              action="{{route('client.destroy',$cliente->id) }}"
+                                                              id="cliente_destroy{{ $cliente->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <a class="btn btn-icon btn-danger" data-toggle="tooltip"
+                                                               ata-placement="top" title="Excluir" href="#"
+                                                               onClick="document.getElementById('cliente_destroy{{ $cliente->id }}').submit();">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </form>
+                                                    @endcan
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
