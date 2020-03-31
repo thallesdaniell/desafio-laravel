@@ -17,7 +17,9 @@ class LogController extends Controller
     public function index()
     {
         $roleAdmin               = config('desafio.role-admin');
-        $shouldFilterByRoleAdmin = !auth()->user()->hasRole($roleAdmin);
+        $shouldFilterByRoleAdmin =
+            !auth()->user()->hasRole($roleAdmin) &&
+            !auth()->user()->hasPermissionTo('log-geral');
 
         $logs = Activity::when($shouldFilterByRoleAdmin, function (Builder $query) {
             $query->where('subject_id', auth()->user()->id)
@@ -25,7 +27,7 @@ class LogController extends Controller
         })->get();
 
         $users = User::all();
-        return view('log.index', compact('logs','users'));
+        return view('log.index', compact('logs', 'users'));
     }
 
     /**
