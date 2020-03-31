@@ -43,14 +43,11 @@ class start extends Command
         $db = $this->choice("Configurou as credênciais do banco MYSQL?", ['S', 'N'], 0);
         if ($db == 'N') exit;
 
-        $this->callSilent('config:cache');
-        $this->call('db:create');
-        $this->comment('Banco criado.');
+        $this->call('db:check');
 
         $this->callSilent('key:generate');
         $this->comment('Chave criada.');
 
-        $this->callSilent('config:cache');
 
         $this->callSilent('migrate'); //--seed
         $this->comment('Migrações realizadas.');

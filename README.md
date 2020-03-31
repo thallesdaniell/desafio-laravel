@@ -68,7 +68,7 @@ Instalar composer
 $ composer install
 ```
 
-Configurar `.env` com as credências do banco `Mysql` 
+Criar `database` e configurar `.env` com as credênciais
 ```
   DB_CONNECTION=mysql
   DB_HOST=127.0.0.1
@@ -77,6 +77,7 @@ Configurar `.env` com as credências do banco `Mysql`
   DB_USERNAME=root
   DB_PASSWORD=
 ```
+
 Iniciar a aplicação 
 ```
 $ php artisan start:app

@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class dbcreate extends Command
+class dbcheck extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'db:create {name?}';
+    protected $signature = 'db:check';
 
     /**
      * The console command description.
@@ -38,16 +38,14 @@ class dbcreate extends Command
      */
     public function handle()
     {
-        $schemaName = $this->argument('name') ?: config("database.connections.mysql.database");
-        $charset = config("database.connections.mysql.charset");
-        $collation = config("database.connections.mysql.collation");
+        if(!getenv('APP_NAME'))
+            die($this->error('.env não encontrado'));
 
-        config(["database.connections.mysql.database" => null]);
-
-        $query = "CREATE DATABASE IF NOT EXISTS $schemaName CHARACTER SET $charset COLLATE $collation;";
-
-        DB::statement($query);
-
-        config(["database.connections.mysql.database" => $schemaName]);
+        try {
+            DB::connection()->getPdo();
+        } catch (\Exception $e) {
+            die($this->error('Banco não encontrado'));
+        }
     }
+
 }
