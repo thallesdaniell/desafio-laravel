@@ -26,9 +26,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::resource('/client', 'ClientController');
-    Route::resource('/phone', 'PhoneController');
     Route::resource('/role','RoleController');
     Route::resource('/user','UserController');
     Route::resource('/log','LogController');
 
+    Route::group(['namespace' => 'Admin'], function () {
+        Route::resource('admin-role','RoleController');
+        Route::resource('admin-user','UserController');
+    });
 });
