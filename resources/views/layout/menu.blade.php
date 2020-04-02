@@ -14,12 +14,12 @@
                     @canany([config("desafio.role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
                         <li><a class="nav-link" href="{{route('client.index')}}">Clientes</a></li>
                     @endcanany
-                    @can(config("desafio.role-default"))
+                    @role(config("desafio.role-default"))
                         <li><a class="nav-link" href="{{route('user.index')}}">Usuários</a></li>
-                    @endcan
-                    @can(config("desafio.role-default"))
+                    @endrole
+                    @role(config("desafio.role-default"))
                         <li><a class="nav-link" href="{{route('role.index')}}">Perfis</a></li>
-                    @endcan
+                    @endrole
                     @canany([config("desafio.role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
                         <li><a class="nav-link" href="{{route('log.index')}}">Histórico</a></li>
                     @endcanany
