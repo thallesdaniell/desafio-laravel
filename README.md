@@ -18,11 +18,9 @@ __Características__:
  
  __Cenário__: 
 
-O usuário acessa a aplicação e se cadastra. Após isso ele pode criar “Clientes”. Cada cliente pode ter um ou mais telefones. Para cada telefone devem haver dois botões: um link para telefone e um link para abrir uma conversa no WhatsApp.
+O usuário acessa a aplicação se cadastra e, então, poderá criar seus  “Clientes”. Cada cliente pode ter um ou mais telefones. Para cada telefone devem haver dois botões: um link para telefone e um outro link para abrir uma conversa no WhatsApp.
 
-
-A aplicação deve possuir um controle de grupos e níveis de acesso e o usuário principal pode cadastrar novos usuários dentro destes grupos. Claro que as ações do usuário ficarão limitadas às configurações de cada grupo criado.
-
+A aplicação deve possuir um controle de grupos e de níveis de acesso. Usuário principal poderá cadastrar novos usuários dentro de cada grupo, anteriormente criado. É importante frisar que as ações do usuário ficarão limitadas às configurações de cada grupo.
 __Dados da Aplicação__:
 
  - Tela Inicial:
