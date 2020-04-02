@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
@@ -94,5 +95,16 @@ class User extends Authenticatable
             ->orWhere(function (Builder $query) use ($guests) {
                 $query->where('subject_type', 'User')->whereIn('subject_id', $guests);
             })->get();
+    }
+
+    public static function share_client()
+    {
+        $owner = Auth::user()->from_guest;
+        $type  = is_null($owner) ? Auth::id() : $owner->user_id;
+
+        $guests = Guest::where('user_id', $type)->pluck('guest_id')->toArray();
+
+        $guests[] = $type;
+        return self::with('client')->whereIn('id', $guests)->get();
     }
 }

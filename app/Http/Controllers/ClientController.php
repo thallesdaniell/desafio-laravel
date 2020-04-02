@@ -6,6 +6,7 @@ use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
 use App\Models\Client;
 use App\Models\Guest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
@@ -13,7 +14,7 @@ class ClientController extends Controller
     public function __construct()
     {
         $this->middleware('permission:Visualizar Telefones', ['only' => ['index', 'show']]);
-//        $this->middleware('permission:cliente-criar', ['only' => ['create', 'store']]);
+        //        $this->middleware('permission:cliente-criar', ['only' => ['create', 'store']]);
         $this->middleware('permission:Editar Telefone', ['only' => ['edit', 'update']]);
         $this->middleware('permission:Excluir Telefone', ['only' => ['destroy']]);
     }
@@ -25,11 +26,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $owner  = Auth::user()->from_guest;
-        $type   = is_null($owner) ? Auth::id() : $owner->user_id;
-        $guests = Guest::where('user_id', $type)->get();
-
-        return view('client.index', compact('guests'));
+        $users = User::share_client();
+        return view('client.index', compact('users'));
     }
 
     /**

@@ -50,8 +50,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($guests as $guest)
-                                            @foreach($guest->user->client as $client)
+                                        @foreach($users as $user)
+                                            @foreach($user->client as $client)
                                                 <tr>
                                                     <td>
                                                         <h3 class="">
