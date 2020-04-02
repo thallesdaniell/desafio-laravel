@@ -11,16 +11,16 @@
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="far fa-address-book"></i><span>Agenda</span></a>
                 <ul class="dropdown-menu">
-                    @canany([config("role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
+                    @canany([config("desafio.role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
                         <li><a class="nav-link" href="{{route('client.index')}}">Clientes</a></li>
                     @endcanany
-                    @can(config("role-default"))
+                    @can(config("desafio.role-default"))
                         <li><a class="nav-link" href="{{route('user.index')}}">Usuários</a></li>
                     @endcan
-                    @can(config("role-default"))
+                    @can(config("desafio.role-default"))
                         <li><a class="nav-link" href="{{route('role.index')}}">Perfis</a></li>
                     @endcan
-                    @canany([config("role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
+                    @canany([config("desafio.role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
                         <li><a class="nav-link" href="{{route('log.index')}}">Histórico</a></li>
                     @endcanany
                 </ul>

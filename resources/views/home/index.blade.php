@@ -33,16 +33,16 @@
                             </div>
                             <div class="card-body">
                                 <div class="buttons">
-                                    @canany([config("role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
+                                    @canany([config("desafio.role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
                                         <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('client.index')}}">Clientes</a>
                                     @endcanany
-                                    @can(config("role-default"))
+                                    @can(config("desafio.role-default"))
                                         <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('user.index')}}">Usuários</a>
                                     @endcan
-                                    @can(config("role-default"))
+                                    @can(config("desafio.role-default"))
                                         <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('role.index')}}">Perfis</a>
                                     @endcan
-                                    @canany([config("role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
+                                    @canany([config("desafio.role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
                                         <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('log.index')}}">Histórico</a>
                                     @endcanany
 
