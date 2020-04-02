@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
 use App\Models\Client;
+use App\Models\Guest;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:cliente-listar', ['only' => ['index', 'show']]);
-        $this->middleware('permission:cliente-criar', ['only' => ['create', 'store']]);
-        $this->middleware('permission:cliente-editar', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:cliente-deletar', ['only' => ['destroy']]);
+        $this->middleware('permission:Visualizar Telefones', ['only' => ['index', 'show']]);
+//        $this->middleware('permission:cliente-criar', ['only' => ['create', 'store']]);
+        $this->middleware('permission:Editar Telefone', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:Excluir Telefone', ['only' => ['destroy']]);
     }
 
     /**
@@ -23,8 +25,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get();
-        return view('client.index', compact('clients'));
+        $owner  = Auth::user()->from_guest;
+        $type   = is_null($owner) ? Auth::id() : $owner->user_id;
+        $guests = Guest::where('user_id', $type)->get();
+
+        return view('client.index', compact('guests'));
     }
 
     /**
@@ -105,20 +110,22 @@ class ClientController extends Controller
 
         $client->save();
 
-        $phones_front = $request->get('phones') ?? [];
-        $phones_db    = $client->phone()->get();
+        if (Auth::user()->hasAnyPermission(["Editar Telefone", "Excluir Telefone"])) {
+            $phones_front = $request->get('phones') ?? [];
+            $phones_db    = $client->phone()->get();
 
-        foreach ($phones_db as $phone) {
-            if (!array_key_exists($phone->id, $phones_front))
-                $phone->delete();
-        }
+            foreach ($phones_db as $phone) {
+                if (!array_key_exists($phone->id, $phones_front))
+                    $phone->delete();
+            }
 
-        foreach ($phones_front as $id => $phone) {
-            if ($phones_db->find($id)) {
-                $phones_db->find($id)->phone = $phone;
-                $phones_db->find($id)->save();
-            } else {
-                $client->phone()->create(['phone' => $phone]);
+            foreach ($phones_front as $id => $phone) {
+                if ($phones_db->find($id)) {
+                    $phones_db->find($id)->phone = $phone;
+                    $phones_db->find($id)->save();
+                } else {
+                    $client->phone()->create(['phone' => $phone]);
+                }
             }
         }
 
