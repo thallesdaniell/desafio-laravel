@@ -21,6 +21,10 @@ class UserPolicy
 
     public function permission(User $userAuth, User $user)
     {
-        return $userAuth->id === $user->id;
+        $owner = $user->from_guest;
+        $type  = is_null($owner) ? $user->id : $owner->user_id;
+
+        return $userAuth->id === $user->id
+            || $userAuth->id === $type;
     }
 }

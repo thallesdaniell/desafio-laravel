@@ -3,8 +3,11 @@
 namespace App\Policies;
 
 use App\Models\Client;
+use App\Models\Guest;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ClientPolicy
 {
@@ -22,7 +25,18 @@ class ClientPolicy
 
     public function permission(User $user, Client $client)
     {
-        return $user->id === $client->user_id;
+        $owner = $user->from_guest;
+        $type  = is_null($owner) ? $user->id : $owner->user_id;
+
+        $check = Guest::where('user_id', $type)
+            ->whereHas('user', function (Builder $query) use ($client) {
+                $query->whereHas('client', function (Builder $query) use ($client) {
+                    $query->where('id', $client->id);
+                });
+            })->get()->isNotEmpty();
+
+
+        return $user->id === $client->user_id || $check;
 
     }
 }
