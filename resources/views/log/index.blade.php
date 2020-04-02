@@ -69,7 +69,7 @@
                                                     {{$log->description}}
                                                 </td>
                                                 <td>
-                                                    {{$log->created_at->format('d/m/Y H:i:s')}}
+                                                    {{Carbon\Carbon::parse($log->created_at, 'UTC')->format('d/m/Y H:i:s')}}
                                                 </td>
 
                                             </tr>
