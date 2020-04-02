@@ -32,6 +32,7 @@
                                         <input type="text" name="email" class="form-control" id="email" value="{{$client->email}}">
                                     </div>
 
+                                    @canany(["Editar Telefone","Excluir Telefone"])
                                     @if($client->phone)
                                         @foreach($client->phone as $phone)
                                             <div id="inputAdd">
@@ -48,6 +49,7 @@
                                         @endforeach
                                         <div id="new"></div>
                                     @endif
+                                    @endcanany
 
                                     <div class="text-right">
                                         <button id="addRow" type="button" class="btn btn-info text-right">Adicionar Telefone</button>
