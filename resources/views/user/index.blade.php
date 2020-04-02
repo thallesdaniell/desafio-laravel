@@ -44,24 +44,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($users as $user)
+                                        @foreach ($guests as $guest)
                                             <tr>
-                                                <td>{{ $user->id }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->roles()->pluck('name')->implode(' ') }}</td>
+                                                <td>{{ $guest->user->id }}</td>
+                                                <td>{{ $guest->user->name }}</td>
+                                                <td>{{ $guest->user->email }}</td>
+                                                <td>{{ $guest->user->roles()->pluck('name')->implode(' ') }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <button class="btn btn-block btn-primary dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             Ação
                                                         </button>
                                                         <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="{{ route('user.edit',$user->id) }}"><i class="fas fa-cog"></i> Editar</a>
+                                                            <a class="dropdown-item" href="{{ route('user.edit',$guest->user->id) }}"><i class="fas fa-cog"></i> Editar</a>
                                                             <div class="dropdown-divider"></div>
-                                                            <form method="POST" action="{{route('user.destroy',$user->id) }}" id="user_destroy{{ $user->id }}">
+                                                            <form method="POST" action="{{route('user.destroy',$guest->user->id) }}" id="user_destroy{{ $guest->user->id }}">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <a class="dropdown-item" href="#" onClick="document.getElementById('user_destroy{{ $user->id }}').submit();">
+                                                                <a class="dropdown-item" href="#" onClick="document.getElementById('user_destroy{{ $guest->user->id }}').submit();">
                                                                     <i class="fas fa-trash"></i> Deletar
                                                                 </a>
                                                             </form>

@@ -41,8 +41,6 @@
                                         <label for="name">Confirmação da senha</label>
                                         <input type="password" name="password_confirmation" class="form-control" id="password" value="">
                                     </div>
-
-                                    @if(!$roles->isEmpty() && auth()->user()->is_admin)
                                         <h5><b>Atribuir Perfis</b></h5>
                                         <div class="form-group">
                                             @foreach ($roles as $role)
@@ -52,7 +50,6 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                    @endif
 
                                     <button type="submit" class="btn btn-primary">Salvar</button>
                                 </form>
