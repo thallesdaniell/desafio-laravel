@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Guest;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,11 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $clientes = Client::where('user_id', auth()->user()->id);
-        $total    = $clientes->count();
-        $clientes = $clientes->orderBy('id', 'DESC')
-            ->limit(5)
-            ->get();
-        return view('home.index', compact('clientes','total'));
+        return view('home.index');
     }
 }
