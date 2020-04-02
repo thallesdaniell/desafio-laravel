@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:' . config('desafio.role-default'));
+        $this->middleware('role:' . config('desafio.role-default').'|'.config('desafio.role-admin'));
     }
 
     /**
