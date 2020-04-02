@@ -92,7 +92,7 @@ class User extends Authenticatable
                 $query->where('causer_type', 'User')->whereIn('causer_id', $guests);
             })
             ->orWhere(function (Builder $query) use ($guests) {
-                $query->where('subject_type', 'User')->whereIn('causer_id', $guests);
+                $query->where('subject_type', 'User')->whereIn('subject_id', $guests);
             })->get();
     }
 }
