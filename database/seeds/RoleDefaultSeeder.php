@@ -17,13 +17,6 @@ class RoleDefaultSeeder extends Seeder
             ['name' => config('desafio.role-default')]
         );
 
-        $permissions = [
-            'cliente-listar',
-            'cliente-criar',
-            'cliente-editar',
-            'cliente-deletar',
-            'usuario-editar',
-          ];
-        $role->syncPermissions($permissions);
+        $role->syncPermissions(Permission::all());
     }
 }

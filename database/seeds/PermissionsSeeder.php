@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionsSeeder extends Seeder
 {
@@ -13,15 +14,11 @@ class PermissionsSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'cliente-listar',
-            'cliente-criar',
-            'cliente-editar',
-            'cliente-deletar',
-            'usuario-listar',
-            'usuario-criar',
-            'usuario-editar',
-            'usuario-deletar',
-            'log-geral'
+            "Visualizar Histórico",
+            "Visualizar Histórico Todos",
+            "Visualizar Telefones",
+            "Editar Telefone",
+            "Excluir Telefone"
         ];
 
         foreach ($permissions as $permission) {
