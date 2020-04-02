@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -50,9 +52,6 @@ class User extends Authenticatable
     }
 
 
-
-
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -74,5 +73,26 @@ class User extends Authenticatable
     public function client()
     {
         return $this->hasMany(Client::class);
+    }
+
+    public function guest()
+    {
+        return $this->hasMany(Guest::class);
+    }
+
+    public function from_guest()
+    {
+        return $this->hasOne(Guest::class, 'guest_id');
+    }
+
+    public static function log($guests)
+    {
+        return DB::table('activity_log')
+            ->where(function (Builder $query) use ($guests) {
+                $query->where('causer_type', 'User')->whereIn('causer_id', $guests);
+            })
+            ->orWhere(function (Builder $query) use ($guests) {
+                $query->where('subject_type', 'User')->whereIn('causer_id', $guests);
+            })->get();
     }
 }
