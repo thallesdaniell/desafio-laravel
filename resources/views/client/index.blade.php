@@ -22,11 +22,9 @@
         <section class="section">
             <div class="section-header">
                 <h1>Clientes</h1>
-                @can('cliente-criar')
                     <div class="section-header-breadcrumb">
                         <a href="{{ route('client.create') }}" class="btn btn-primary text-right">Criar Cliente</a>
                     </div>
-                @endcan
             </div>
             @include('layout.alerts')
             <div class="section-body">
@@ -52,94 +50,95 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($guests as $guest)
+                                            @foreach($guest->user->client as $client)
+                                                <tr>
+                                                    <td>
+                                                        <h3 class="">
+                                                            <small class="text-muted">
+                                                                <div class="card-header-action">
+                                                                    <a data-collapse="#mycard-collapse{{$client->id}}"
+                                                                       class="btn btn-icon btn-info" href="#"><i
+                                                                            class="fas fa-plus"></i></a>
+                                                                    {{$client->name}}
 
-                                        @foreach($clients as $client)
-                                            <tr>
-                                                <td>
-                                                    <h3 class="">
-                                                        <small class="text-muted">
-                                                            <div class="card-header-action">
-                                                                <a data-collapse="#mycard-collapse{{$client->id}}"
-                                                                   class="btn btn-icon btn-info" href="#"><i
-                                                                        class="fas fa-plus"></i></a>
-                                                                {{$client->name}}
-
-                                                            </div>
-                                                        </small>
-
-                                                    </h3>
-                                                    <div class="accordian-body collapse"
-                                                         id="mycard-collapse{{$client->id}}">
-                                                        <div class="col-lg-12">
-                                                            <div class="activities">
-                                                                <div class="activity">
-                                                                    <div
-                                                                        class="activity-icon bg-primary text-white shadow-primary">
-                                                                        <i style="font-size: 15px;"
-                                                                           class="far fa-envelope"></i>
-                                                                    </div>
-                                                                    <div class="activity-detail">
-                                                                        <p>{{$client->email}}</p>
-                                                                        <a   href="mailto:{{$client->email}}?Subject=Desafio%20PrivateCode&body=Desafio%20PrivateCode." target="_top" class="btn btn-icon icon-left btn-primary">
-                                                                            <i class="far fa-envelope"></i> Enviar
-                                                                        </a>
-
-                                                                    </div>
                                                                 </div>
-                                                                @foreach($client->phone as $phone)
+                                                            </small>
+
+                                                        </h3>
+                                                        <div class="accordian-body collapse"
+                                                             id="mycard-collapse{{$client->id}}">
+                                                            <div class="col-lg-12">
+                                                                <div class="activities">
                                                                     <div class="activity">
                                                                         <div
                                                                             class="activity-icon bg-primary text-white shadow-primary">
                                                                             <i style="font-size: 15px;"
-                                                                               class="fas fa-phone-square"></i>
+                                                                               class="far fa-envelope"></i>
                                                                         </div>
                                                                         <div class="activity-detail">
-                                                                            <p>{{$phone->phone}}</p>
-
-                                                                            <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
-                                                                                <i class="fab fa-whatsapp"></i> WhatsApp
-                                                                            </a>
-
-                                                                            <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
-                                                                                <i class="fas fa-phone-square"></i> Ligar
+                                                                            <p>{{$client->email}}</p>
+                                                                            <a   href="mailto:{{$client->email}}?Subject=Desafio%20PrivateCode&body=Desafio%20PrivateCode." target="_top" class="btn btn-icon icon-left btn-primary">
+                                                                                <i class="far fa-envelope"></i> Enviar
                                                                             </a>
 
                                                                         </div>
                                                                     </div>
-                                                                @endforeach
+                                                                    @foreach($client->phone as $phone)
+                                                                        <div class="activity">
+                                                                            <div
+                                                                                class="activity-icon bg-primary text-white shadow-primary">
+                                                                                <i style="font-size: 15px;"
+                                                                                   class="fas fa-phone-square"></i>
+                                                                            </div>
+                                                                            <div class="activity-detail">
+                                                                                <p>{{$phone->phone}}</p>
+
+                                                                                <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
+                                                                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                                                                </a>
+
+                                                                                <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
+                                                                                    <i class="fas fa-phone-square"></i> Ligar
+                                                                                </a>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                </td>
-                                                <td class="text-right">
-                                                    @can('cliente-editar')
-                                                        <a href="{{route('client.edit',$client->id)}}"
-                                                           class="btn btn-icon btn-primary" data-toggle="tooltip"
-                                                           data-placement="top" title="Editar">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
-                                                    @endcan
-                                                </td>
-
-
-
-                                                <td class="text-left">
-                                                    @can('cliente-deletar')
-                                                        <form method="POST"
-                                                              action="{{route('client.destroy',$client->id) }}"
-                                                              id="client_destroy{{ $client->id }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a class="btn btn-icon btn-danger" data-toggle="tooltip"
-                                                               ata-placement="top" title="Excluir" href="#"
-                                                               onClick="document.getElementById('client_destroy{{ $client->id }}').submit();">
-                                                                <i class="far fa-trash-alt"></i>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @can("Editar Telefone")
+                                                            <a href="{{route('client.edit',$client->id)}}"
+                                                               class="btn btn-icon btn-primary" data-toggle="tooltip"
+                                                               data-placement="top" title="Editar">
+                                                                <i class="fas fa-pencil-alt"></i>
                                                             </a>
-                                                        </form>
-                                                    @endcan
-                                                </td>
-                                            </tr>
+                                                        @endcan
+                                                    </td>
+
+
+
+                                                    <td class="text-left">
+                                                        @can("Excluir Telefone")
+                                                            <form method="POST"
+                                                                  action="{{route('client.destroy',$client->id) }}"
+                                                                  id="client_destroy{{ $client->id }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <a class="btn btn-icon btn-danger" data-toggle="tooltip"
+                                                                   ata-placement="top" title="Excluir" href="#"
+                                                                   onClick="document.getElementById('client_destroy{{ $client->id }}').submit();">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </a>
+                                                            </form>
+                                                        @endcan
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                         </tbody>
                                     </table>
