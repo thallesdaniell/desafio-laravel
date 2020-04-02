@@ -12,10 +12,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:usuario-listar', ['only' => ['index', 'show']]);
-        $this->middleware('permission:usuario-criar', ['only' => ['create', 'store']]);
-        $this->middleware('permission:usuario-editar', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:usuario-deletar', ['only' => ['destroy']]);
+        $this->middleware('role:' . config('desafio.role-default'));
     }
 
     /**
@@ -25,21 +22,28 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        $this->authorize('permission', auth()->user());
-
-        return view('user.index', compact('users'));
+        $guests = Auth::user()->guest;
+        return view('user.index', compact('guests'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = Auth::user()
+            ->roles()
+            ->whereNotIn('name', [
+                config('desafio.role-default'), config('desafio.role-guest')
+            ])
+            ->get();
+
+        if ($roles->isEmpty())
+            return redirect()
+                ->route('role.create')
+                ->with('message_warning', 'Para cadastrar um usuário precisa ter pelo menos um perfil cadastrado!');
 
         return view('user.create', compact('roles'));
     }
@@ -57,7 +61,6 @@ class UserController extends Controller
         $user->email    = $request->get('email');
         $user->password = bcrypt($request->get('password'));
 
-        $this->authorize('permission', $user);
 
         $roles = $request->get('roles');
         if (isset($roles)) {
@@ -66,7 +69,10 @@ class UserController extends Controller
                 $user->assignRole($role_r);
             }
         }
+        $user->assignRole(config('desafio.role-guest'));
         $user->save();
+
+        Auth::user()->guest()->create(['guest_id' => $user->id]);
 
         return redirect()->route('user.index')
             ->with('message', 'Usuário adicionado com sucesso.');
@@ -91,11 +97,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles      = Role::all();
+        $roles      = Auth::user()
+            ->roles()
+            ->whereNotIn('name', [
+                config('desafio.role-default'), config('desafio.role-guest')
+            ])
+            ->get();
         $user       = User::findOrFail($id);
         $roles_user = $user->roles->pluck('name');
-
-        $this->authorize('permission', $user);
 
         return view('user.edit', compact('user', 'roles', 'roles_user'));
     }
@@ -117,26 +126,18 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
-        $this->authorize('permission', $user);
-
         $user->save();
 
-        if (auth()->user()->is_admin) {
-            $roles[] = $request['roles'];
+        $roles[] = $request['roles'];
 
-            if (isset($roles)) {
-                $user->syncRoles($roles);
-            } else {
-                $user->roles()->detach();
-            }
-            return redirect()->route('user.index')
-                ->with('message', 'Usuario editado com sucesso.');
+        if (isset($roles)) {
+            $user->syncRoles($roles);
+        } else {
+            $user->roles()->detach();
         }
 
-        return redirect()->route('user.edit', $user->id)
-            ->with('message', 'Usuário editado com sucesso.');
-
-
+        return redirect()->route('user.index')
+            ->with('message', 'Usuario editado com sucesso.');
     }
 
     /**
@@ -148,8 +149,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-
-        $this->authorize('permission', $user);
 
         if ($user->id == Auth::id()) {
             return redirect()->route('user.index')
