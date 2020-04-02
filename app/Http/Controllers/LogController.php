@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guest;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
 
 class LogController extends Controller
@@ -16,17 +17,27 @@ class LogController extends Controller
      */
     public function index()
     {
-        $roleAdmin               = config('desafio.role-admin');
-        $shouldFilterByRoleAdmin =
-            !auth()->user()->hasRole($roleAdmin) &&
-            !auth()->user()->hasPermissionTo('log-geral');
+        $logs = [];
+        if (Auth::user()->hasRole(config('desafio.role-admin'))) {
+            $logs = Activity::all();
+        }
 
-        $logs = Activity::when($shouldFilterByRoleAdmin, function (Builder $query) {
-            $query->where('subject_id', auth()->user()->id)
-                ->orWhere('causer_id', auth()->user()->id)->get();
-        })->get();
+        if (Auth::user()->hasRole(config('desafio.role-default')) ||
+            Auth::user()->hasPermissionTo("Visualizar Histórico Todos")) {
 
-        $users = User::all();
+            $owner = Auth::user()->from_guest;
+            $id    = is_null($owner) ? Auth::id() : $owner->user_id;
+
+            $guests = Guest::where('user_id', $id)->pluck('guest_id')->toArray();
+
+            $guests[] = $id;
+            $logs     = User::log($guests);
+        }
+
+        if (Auth::user()->hasRole(config('desafio.role-guest'))) {
+            $logs = User::log([Auth::id()]);
+        }
+        $users = User::withTrashed()->get();
         return view('log.index', compact('logs', 'users'));
     }
 
