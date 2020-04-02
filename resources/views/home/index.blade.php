@@ -23,133 +23,29 @@
                 <h1>Início</h1>
             </div>
             @include('layout.alerts')
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-primary">
-                            <i class="far fa-user"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total</h4>
-                            </div>
-                            <div class="card-body">
-                                {{$total}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+                            <div class="card-header">
+                                <h4>Acessos</h4>
+                            </div>
                             <div class="card-body">
+                                <div class="buttons">
+                                    @canany([config("role-default"),"Visualizar Telefones","Editar Telefone","Excluir Telefone"])
+                                        <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('client.index')}}">Clientes</a>
+                                    @endcanany
+                                    @can(config("role-default"))
+                                        <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('user.index')}}">Usuários</a>
+                                    @endcan
+                                    @can(config("role-default"))
+                                        <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('role.index')}}">Perfis</a>
+                                    @endcan
+                                    @canany([config("role-default"),"Visualizar Histórico","Visualizar Histórico Todos"])
+                                        <a class="btn-lg btn-block btn btn-outline-primary" href="{{route('log.index')}}">Histórico</a>
+                                    @endcanany
 
-
-                                <div class="table-responsive">
-                                    <table class="table table-borderless " id="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Ultimos cadastrados</th>
-                                            <th width="10px"></th>
-                                            <th width="10px"></th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        @foreach($clientes as $cliente)
-                                            <tr>
-                                                <td>
-                                                    <h3 class="">
-                                                        <small class="text-muted">
-                                                            <div class="card-header-action">
-                                                                <a data-collapse="#mycard-collapse{{$cliente->id}}"
-                                                                   class="btn btn-icon btn-info" href="#"><i
-                                                                        class="fas fa-plus"></i></a>
-                                                                {{$cliente->name}}
-
-                                                            </div>
-                                                        </small>
-
-                                                    </h3>
-                                                    <div class="accordian-body collapse"
-                                                         id="mycard-collapse{{$cliente->id}}">
-                                                        <div class="col-lg-12">
-                                                            <div class="activities">
-                                                                <div class="activity">
-                                                                    <div
-                                                                        class="activity-icon bg-primary text-white shadow-primary">
-                                                                        <i style="font-size: 15px;"
-                                                                           class="far fa-envelope"></i>
-                                                                    </div>
-                                                                    <div class="activity-detail">
-                                                                        <p>{{$cliente->email}}</p>
-                                                                        <a   href="mailto:{{$cliente->email}}?Subject=Desafio%20PrivateCode&body=Desafio%20PrivateCode." target="_top" class="btn btn-icon icon-left btn-primary">
-                                                                            <i class="far fa-envelope"></i> Enviar
-                                                                        </a>
-
-                                                                    </div>
-                                                                </div>
-                                                                @foreach($cliente->phone as $phone)
-                                                                    <div class="activity">
-                                                                        <div
-                                                                            class="activity-icon bg-primary text-white shadow-primary">
-                                                                            <i style="font-size: 15px;"
-                                                                               class="fas fa-phone-square"></i>
-                                                                        </div>
-                                                                        <div class="activity-detail">
-                                                                            <p>{{$phone->phone}}</p>
-
-                                                                            <a href="https://api.whatsapp.com/send?phone=+55{{$phone->phone_only_number}}&text=Desafio%20PrivateCode." class="btn btn-icon icon-left btn-primary">
-                                                                                <i class="fab fa-whatsapp"></i> WhatsApp
-                                                                            </a>
-
-                                                                            <a href="tel:+55{{$phone->phone_only_number}}" class="btn btn-icon icon-left btn-primary">
-                                                                                <i class="fas fa-phone-square"></i> Ligar
-                                                                            </a>
-
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </td>
-                                                <td class="text-right">
-                                                    @can('clientee-editar')
-                                                        <a href="{{route('client.edit',$cliente->id)}}"
-                                                           class="btn btn-icon btn-primary" data-toggle="tooltip"
-                                                           data-placement="top" title="Editar">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
-                                                    @endcan
-                                                </td>
-
-
-
-                                                <td class="text-left">
-                                                    @can('clientee-deletar')
-                                                        <form method="POST"
-                                                              action="{{route('client.destroy',$cliente->id) }}"
-                                                              id="cliente_destroy{{ $cliente->id }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a class="btn btn-icon btn-danger" data-toggle="tooltip"
-                                                               ata-placement="top" title="Excluir" href="#"
-                                                               onClick="document.getElementById('cliente_destroy{{ $cliente->id }}').submit();">
-                                                                <i class="far fa-trash-alt"></i>
-                                                            </a>
-                                                        </form>
-                                                    @endcan
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
