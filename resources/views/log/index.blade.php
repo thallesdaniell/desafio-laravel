@@ -41,7 +41,7 @@
                                         <thead>
                                         <tr>
                                             <th>Usuário</th>
-                                            <th>Perfil</th>
+
                                             <th>Alteração</th>
                                             <th>Data</th>
                                         </tr>
@@ -57,14 +57,7 @@
 
                                                     @endif
                                                 </td>
-                                                <td>
-                                                    @if($log->causer_id)
-                                                        {{$users->find($log->causer_id)->roles()->pluck('name')->implode(' ')}}
-                                                    @else
-                                                        {{$users->find($log->subject_id)->roles()->pluck('name')->implode(' ')}}
 
-                                                    @endif
-                                                </td>
                                                 <td>
                                                     {{$log->description}}
                                                 </td>
