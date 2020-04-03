@@ -154,7 +154,7 @@ class UserController extends Controller
             return redirect()->route('user.index')
                 ->with('message_error', 'Você não pode se deletar.');
         }
-
+        $user->from_guest()->delete();
         $user->roles()->detach();
         $user->delete();
         return redirect()->route('user.index')
