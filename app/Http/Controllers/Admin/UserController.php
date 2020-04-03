@@ -24,9 +24,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $guests = Guest::all();
+        $users = User::all();
 
-        return view('user.index', compact('guests'));
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -38,7 +38,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
 
-        return view('user.create', compact('roles'));
+        return view('admin.user.create', compact('roles'));
     }
 
     /**
@@ -63,7 +63,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect()->route('user.index')
+        return redirect()->route('admin-user.index')
             ->with('message', 'Usuário adicionado com sucesso.');
     }
 
@@ -90,7 +90,7 @@ class UserController extends Controller
         $user       = User::findOrFail($id);
         $roles_user = $user->roles->pluck('name');
 
-        return view('user.edit', compact('user', 'roles', 'roles_user'));
+        return view('admin.user.edit', compact('user', 'roles', 'roles_user'));
     }
 
     /**
@@ -120,7 +120,7 @@ class UserController extends Controller
             $user->roles()->detach();
         }
 
-        return redirect()->route('user.edit', $user->id)
+        return redirect()->route('admin-user.edit', $user->id)
             ->with('message', 'Usuário editado com sucesso.');
 
 
@@ -139,13 +139,19 @@ class UserController extends Controller
         $this->authorize('permission', $user);
 
         if ($user->id == Auth::id()) {
-            return redirect()->route('user.index')
+            return redirect()->route('admin-user.index')
                 ->with('message_error', 'Você não pode se deletar.');
+        }
+
+        if(!$user->from_guest){
+            $user->guest()->delete();
+        }else{
+            $user->from_guest()->delete();
         }
 
         $user->roles()->detach();
         $user->delete();
-        return redirect()->route('user.index')
+        return redirect()->route('admin-user.index')
             ->with('message', 'Usuário deletado com sucesso.');
     }
 }
